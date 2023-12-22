@@ -1,0 +1,5 @@
+- make it so you specify the gender of the result
+- fetch the number of results and use that to calculate if the item index is at the end. if it is, block the next button
+- buttons to go back/forward by 10
+- investigate having a list of options for category rather than a string
+- set the timeout to be nice

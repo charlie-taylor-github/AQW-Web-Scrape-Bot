@@ -1,6 +1,6 @@
-const ItemsQuery = require('./ItemsQuery.js');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const itemsQuery = new ItemsQuery('Armors', '+freeplayer');
-itemsQuery.getPageItems().then(items => {
-  console.log(items);
-}).catch();
+const { init } = require('./controllers/discord_controller.js');
+init().then();
+
