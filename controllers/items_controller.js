@@ -1,21 +1,25 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const config = require('../config.js');
+const { v4: uuid } = require('uuid');
 
-function getUrl(category, tags, pageIndex) {
-  return `http://aqwwiki.wikidot.com/search-items-by-tag/parent/`
+function getUrl(gender, category, tags, pageIndex) {
+  console.log(gender)
+  return `http://aqwwiki.wikidot.com/search-items-by-tag${gender == 'male' ? '' : '-f'}/parent/`
     + `${category?.replace(' ', '%20') || '-='}`
     + `/tags/${(tags + ' ').replace(' ', '%20').replace('+', '%2B') || ''}-_index%20-_redirect`
     + `/perPage/${config.itemsPerPage}/p/${pageIndex + 1}`;
 }
 
 class ItemsSession {
-  constructor(category, tags) {
+  constructor(gender, category, tags) {
+    this.gender = gender;
     this.category = category;
     this.tags = tags;
     this.itemIndex = 0;
     this.loadedPageIndex = 0;
     this.loadedPageItems = [];
+    this.id = uuid();
   }
 
   async init() {
@@ -44,7 +48,7 @@ class ItemsSession {
   }
 
   async #loadPageItems() {
-    const url = getUrl(this.category, this.tags, this.loadedPageIndex);
+    const url = this.#getUrl(this.gender, this.category, this.tags, this.loadedPageIndex);
     const response = await axios.get(url);
     const html = response.data;
     const $ = cheerio.load(html);
@@ -54,11 +58,19 @@ class ItemsSession {
     listItems.each((i, listItem) => {
       const name = $(listItem).find('p strong a').text();
       let img = $(listItem).find('.m-content').find('img').last().attr('src');
+      if (!img) img = $(listItem).find('.f-content').find('img').last().attr('src');
       if (config.invalidImageUrls.includes(img)) img = null;
       items.push({ name, img });
     });
 
     this.loadedPageItems = items;
+  }
+
+  #getUrl() {
+    return `http://aqwwiki.wikidot.com/search-items-by-tag${this.gender == 'male' ? '' : '-f'}/parent/`
+      + `${this.category?.replace(' ', '%20') || '-='}`
+      + `/tags/${(this.tags + ' ').replace(' ', '%20').replace('+', '%2B') || ''}-_index%20-_redirect`
+      + `/perPage/${config.itemsPerPage}/p/${this.pageIndex + 1}`;
   }
 }
 

@@ -4,12 +4,12 @@ const config = require('../config.js');
 
 function getActionRow(session) {
   const nextButton = new ButtonBuilder()
-    .setCustomId('next_button')
+    .setCustomId(`${session.id}.next`)
     .setStyle(ButtonStyle.Secondary)
     .setEmoji({ name: '▶️' });
 
   const previousButton = new ButtonBuilder()
-    .setCustomId('previous_button')
+    .setCustomId(`${session.id}.prev`)
     .setStyle(ButtonStyle.Secondary)
     .setDisabled(session.itemIndex <= 0)
     .setEmoji({ name: '◀️' });
@@ -34,15 +34,15 @@ async function getMessage(session) {
   }
 }
 
-function initInteraction(interaction, onNext, onPrevious) {
+function initInteraction(interaction, session, onNext, onPrevious) {
   let filter = i =>
-    i.customId === 'next_button'
+    i.customId === `${session.id}.next`
     && i.user.id === interaction.user.id;
   let collector = interaction.channel.createMessageComponentCollector({ filter, time: 120 * 1000 });
   collector.on('collect', onNext);
 
   filter = i =>
-    i.customId === 'previous_button'
+    i.customId === `${session.id}.prev`
     && i.user.id === interaction.user.id;
   collector = interaction.channel.createMessageComponentCollector({ filter, time: 120 * 1000 });
   collector.on('collect', onPrevious);

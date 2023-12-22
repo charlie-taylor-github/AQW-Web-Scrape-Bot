@@ -1,5 +1,7 @@
-- make it so you specify the gender of the result
+- fix folder structure, put everything in /src. discord_controller can become an initaliseDiscord function (only export is that function), items_controller will become the ItemsSession class only. also rename the utils functions to controllers (and have a /controllers folder inside /src)
+- encapsulate scraping to a scraping_utils file. this way the items_controller logic is encapsualted and the varying scraping part (url and loading), can be encapsualted as well
 - fetch the number of results and use that to calculate if the item index is at the end. if it is, block the next button
 - buttons to go back/forward by 10
 - investigate having a list of options for category rather than a string
+- gracefully handle no image
 - set the timeout to be nice

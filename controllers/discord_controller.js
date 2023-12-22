@@ -18,6 +18,11 @@ const commands = [
     .setName('find')
     .setDescription('Preview a list of all relevant AQW items')
     .addStringOption(option =>
+      option.setName('gender')
+        .setDescription('Filter the items by gender: male or female')
+        .setRequired(true)
+    )
+    .addStringOption(option =>
       option.setName('category')
         .setDescription('Filter the items by category')
         .setRequired(false)
@@ -38,27 +43,29 @@ client.on('interactionCreate', async interaction => {
   const { commandName, options } = interaction;
   if (commandName !== 'find') return;
 
+  let gender = options.getString('gender') || 'male';
+  if (!['male', 'female'].includes(gender)) gender = 'male';
   const category = options.getString('category') || '';
   const tags = options.getString('tags') || '';
-  const session = new ItemsSession(category, tags);
+  const session = new ItemsSession(gender, category, tags);
   await session.init();
 
   const message = await getMessage(session);
   await interaction.reply(message);
 
   async function onNext(i) {
-    session.increaseCurrentItemIndex(10);
+    session.increaseCurrentItemIndex(1);
     const message = await getMessage(session);
     await i.update(message);
   }
 
   async function onPrevious(i) {
-    session.increaseCurrentItemIndex(-10);
+    session.increaseCurrentItemIndex(-1);
     const message = await getMessage(session);
     await i.update(message);
   }
 
-  initInteraction(interaction, onNext, onPrevious);
+  initInteraction(interaction, session, onNext, onPrevious);
 });
 
 async function init() {
