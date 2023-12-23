@@ -1,6 +1,9 @@
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
+const initialiseDiscord = require('./src/initialiseDiscord.js');
 
-const { init } = require('./controllers/discord_controller.js');
-init().then();
 
+initialiseDiscord()
+  .then()
+  .catch(error => {
+    console.error(error);
+  });
