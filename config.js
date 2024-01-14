@@ -21,5 +21,20 @@ module.exports = {
     IntentsBitField.Flags.GuildMessages,
     IntentsBitField.Flags.MessageContent
   ],
-  embedColor: '#E4A023'
+  embedColor: '#E4A023',
+  validCategories: [
+    'Armors',
+    'Capes & Back Items',
+    'Classes',
+    'Enhancements',
+    'Grounds',
+    'Helmets & Hoods',
+    'Houses',
+    'Floor Items',
+    'Wall Items',
+    'Misc. Items',
+    'Use Items',
+    'Necklaces',
+    'Pets'
+  ]
 };

@@ -44,6 +44,7 @@ async function getEmbed(session) {
     .setTitle(item.name)
     .setDescription(`${session.itemIndex + 1} / ${session.totalResults}`)
     .setImage(item.img)
+    .setURL(item.url)
     .setColor(config.embedColor);
 }
 
@@ -51,7 +52,7 @@ async function getMessage(session) {
   const embed = await getEmbed(session);
   const row = getActionRow(session);
   return {
-    embeds: [embed], components: [row]
+    embeds: [embed], components: [row], content: ''
   }
 }
 

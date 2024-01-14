@@ -22,11 +22,18 @@ const commands = [
       option.setName('gender')
         .setDescription('Filter the items by gender: male or female')
         .setRequired(true)
+        .addChoices(
+          { name: 'male', value: 'male' },
+          { name: 'female', value: 'female' }
+        )
     )
     .addStringOption(option =>
       option.setName('category')
         .setDescription('Filter the items by category')
         .setRequired(false)
+        .addChoices(...config.validCategories.map(c => ({
+          name: c, value: c
+        })))
     )
     .addStringOption(option =>
       option.setName('tags')
