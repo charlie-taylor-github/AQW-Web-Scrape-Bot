@@ -1,6 +1,6 @@
-const config = require('../config.js');
+const config = require('../../config.js');
 const { v4: uuid } = require('uuid');
-const { getPageItems, getTotalSearchResults } = require('./controllers/items_controller.js');
+const { getPageItems } = require('./items-scraper.js');
 
 
 class ItemsSession {

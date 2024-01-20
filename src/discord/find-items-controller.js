@@ -1,4 +1,5 @@
 const { EmbedBuilder, ButtonStyle } = require('discord.js');
+const ItemsSession = require('../aqw-wiki/ItemsSession.js');
 const { ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const config = require('../../config.js');
 
@@ -82,5 +83,66 @@ function initInteraction(interaction, session, onNext, onPrevious, onNextJump, o
   collector.on('collect', onPreviousJump);
 }
 
+async function handleInteraction(interaction) {
+  await interaction.reply('Loading...');
 
-module.exports = { initInteraction, getMessage };
+  const options = interaction.options;
+  let gender = options.getString('gender') || 'male';
+  if (!['male', 'female'].includes(gender)) gender = 'male';
+  const category = options.getString('category') || '';
+  const tags = options.getString('tags') || '';
+
+  const session = new ItemsSession(gender, category, tags);
+  await session.init();
+
+  const message = await getMessage(session);
+  await interaction.editReply(message);
+
+  async function onNext(i) {
+    try {
+      session.increaseCurrentItemIndex(1);
+      const message = await getMessage(session);
+      await i.update(message);
+    } catch (e) {
+      console.log('error occured');
+    }
+  }
+
+  async function onNextJump(i) {
+    try {
+      session.increaseCurrentItemIndex(10);
+      const message = await getMessage(session);
+      await i.update(message);
+    } catch (e) {
+      console.log('error occured');
+    }
+  }
+
+  async function onPrevious(i) {
+    try {
+      session.increaseCurrentItemIndex(-1);
+      const message = await getMessage(session);
+      await i.update(message);
+    } catch (e) {
+      console.log('error occured');
+    }
+  }
+
+  async function onPreviousJump(i) {
+    try {
+      session.increaseCurrentItemIndex(-10);
+      const message = await getMessage(session);
+      await i.update(message);
+    } catch (e) {
+      console.log('error occured');
+    }
+  }
+
+  initInteraction(
+    interaction, session,
+    onNext, onPrevious, onNextJump, onPreviousJump
+  );
+}
+
+
+module.exports = { handleInteraction };
