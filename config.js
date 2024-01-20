@@ -36,5 +36,9 @@ module.exports = {
     'Use Items',
     'Necklaces',
     'Pets'
-  ]
+  ],
+  setupHelperRoleEmbed: {
+    title: 'Become a Helper!',
+    description: 'React to this message to get the special helper role.'
+  }
 };

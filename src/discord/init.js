@@ -1,8 +1,9 @@
-const { Client } = require('discord.js');
+const { Client, PermissionFlagsBits } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const findItemsController = require('./find-items-controller.js');
+const helperRoleSetup = require('./helper-role-setup.js');
 const config = require('../../config.js');
 
 
@@ -17,6 +18,7 @@ const commands = [
   new SlashCommandBuilder()
     .setName('find')
     .setDescription('Preview a list of all relevant AQW items')
+    .setDMPermission(false)
     .addStringOption(option =>
       option.setName('gender')
         .setDescription('Filter the items by gender: male or female')
@@ -38,6 +40,19 @@ const commands = [
       option.setName('tags')
         .setDescription('Filter the items with tags')
         .setRequired(false)
+    ),
+  new SlashCommandBuilder()
+    .setName('admin')
+    .setDescription('Commands only available to admins')
+    .setDMPermission(false)
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .addStringOption(option =>
+      option.setName('action')
+        .setDescription('The command you would like to execute')
+        .setRequired(true)
+        .addChoices(
+          { name: 'setup helper role', value: 'setup-helper-role' }
+        )
     )
 ].map(command => command.toJSON());
 
@@ -52,14 +67,27 @@ client.on('interactionCreate', async interaction => {
   if (interaction.commandName === 'find') {
     await findItemsController.handleInteraction(interaction);
   }
+
+  if (interaction.commandName === 'admin') {
+    const options = interaction.options;
+    let action = options.getString('action');
+
+    if (action === 'setup-helper-role') {
+      await helperRoleSetup.handleInteraction(interaction);
+    }
+  }
 });
 
 
 module.exports = async function () {
   try {
     client.login(process.env.DISCORD_BOT_TOKEN);
+    // await rest.put(
+    //   Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
+    //   { body: commands },
+    // );
     await rest.put(
-      Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
+      Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, '977220046017396737'),
       { body: commands },
     );
   } catch (error) {
