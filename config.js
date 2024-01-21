@@ -1,6 +1,31 @@
-const { IntentsBitField } = require('discord.js');
+const { IntentsBitField, Partials } = require('discord.js');
 
 module.exports = {
+
+  // Client Setup
+  discordClientIntents: [
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.GuildPresences,
+    IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.GuildMessageReactions
+  ],
+  discordClientPartials: [
+    Partials.Message,
+    Partials.Channel,
+    Partials.Reaction,
+    Partials.User
+  ],
+
+  // User Interface
+  embedColor: '#E4A023',
+  setupHelperRoleEmbed: {
+    title: 'Become a Helper!',
+    description: 'React to this message to get the special helper role.',
+    reactEmoji: '✅'
+  },
+
+  // Find Items
   invalidImageUrls: [
     'http://aqwwiki.wdfiles.com/local--files/image-tags/acsmall.png',
     'http://aqwwiki.wdfiles.com/local--files/image-tags/aclarge.png',
@@ -16,12 +41,6 @@ module.exports = {
     'http://aqwwiki.wdfiles.com/local--files/image-tags/membersmall.png'
   ],
   itemsPerPage: 50,
-  discordClientIntents: [
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.MessageContent
-  ],
-  embedColor: '#E4A023',
   validCategories: [
     'Armors',
     'Capes & Back Items',
@@ -37,8 +56,11 @@ module.exports = {
     'Necklaces',
     'Pets'
   ],
-  setupHelperRoleEmbed: {
-    title: 'Become a Helper!',
-    description: 'React to this message to get the special helper role.'
+
+  // Server Setup
+  servers: {
+    '1196157712703168553': {
+      helperRoleId: '1198659113501073549'
+    }
   }
 };

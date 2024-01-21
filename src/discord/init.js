@@ -8,7 +8,8 @@ const config = require('../../config.js');
 
 
 const client = new Client({
-  intents: config.discordClientIntents
+  intents: config.discordClientIntents,
+  partials: config.discordClientPartials
 });
 
 const rest = new REST({ version: '9' })
@@ -81,7 +82,9 @@ client.on('interactionCreate', async interaction => {
 
 module.exports = async function () {
   try {
+    helperRoleSetup.init(client);
     client.login(process.env.DISCORD_BOT_TOKEN);
+
     // await rest.put(
     //   Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID),
     //   { body: commands },
@@ -90,6 +93,7 @@ module.exports = async function () {
       Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID, '977220046017396737'),
       { body: commands },
     );
+
   } catch (error) {
     return { error: error.message };
   }
