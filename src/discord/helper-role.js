@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const servers = require('../database/servers.js');
 const config = require('../../config.js');
 
+
 function getEmbed() {
   return new EmbedBuilder()
     .setTitle(config.setupHelperRoleEmbed.title)

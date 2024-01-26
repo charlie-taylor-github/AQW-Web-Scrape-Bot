@@ -8,6 +8,15 @@ async function getServerHelperRoleId(serverId) {
   }
 }
 
+async function getServerItemRequestsChannelId(serverId) {
+  try {
+    return { channelId: config.servers[serverId].itemRequestsChannelId };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
 module.exports = {
-  getServerHelperRoleId
+  getServerHelperRoleId,
+  getServerItemRequestsChannelId
 };

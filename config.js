@@ -24,6 +24,7 @@ module.exports = {
     description: 'React to this message to get the special helper role.',
     reactEmoji: '✅'
   },
+  noHelperRoleMessage: `You don't have the right role to earn currency from your item suggestion`,
 
   // Find Items
   invalidImageUrls: [
@@ -60,7 +61,8 @@ module.exports = {
   // Server Setup
   servers: {
     '1196157712703168553': {
-      helperRoleId: '1198659113501073549'
+      helperRoleId: '1198659113501073549',
+      itemRequestsChannelId: '1198698866250362921'
     }
   }
 };
