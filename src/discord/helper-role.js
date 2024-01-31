@@ -46,7 +46,7 @@ function init(client) {
       reaction.message.guild.id
     );
     if (dbError || !roleId) return;
-    member.roles.add(roleId);
+    member.roles.add(roleId).catch(e => console.log(e.message));
   });
 
   client.on('messageReactionRemove', async (reaction, user) => {
@@ -57,7 +57,7 @@ function init(client) {
       reaction.message.guild.id
     );
     if (dbError || !roleId) return;
-    member.roles.remove(roleId);
+    member.roles.remove(roleId).catch(e => console.log(e.message));
   });
 }
 

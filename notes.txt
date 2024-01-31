@@ -1,0 +1,5 @@
+- post rating in the channel not DMs
+- put the user's profile picture in /balance
+- add a image to the /view-shop
+
+- uncomment code to prevent users suggesting their own requests

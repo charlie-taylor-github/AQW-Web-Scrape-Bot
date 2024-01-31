@@ -58,11 +58,34 @@ module.exports = {
     'Pets'
   ],
 
+  // Currency
+  currencyAwardedForRating: {
+    1: 10,
+    2: 20,
+    3: 30,
+    4: 40,
+    5: 50
+  },
+  currencyName: 'points',
+  shopItems: [
+    {
+      name: '1mo Discord Nitro',
+      description: 'we will send you a link for a month of Nitro',
+      price: 100
+    },
+    {
+      name: 'In-Game Code',
+      description: 'we will send you a code to unlock AQW items',
+      price: 300
+    }
+  ],
+  shopImage: 'https://www.jumblebee.co.uk/site/wp-content/uploads/2014/06/JB-FE-Shop_10.png',
+
   // Server Setup
   servers: {
     '1196157712703168553': {
       helperRoleId: '1198659113501073549',
-      itemRequestsChannelId: '1198698866250362921'
+      itemRequestsChannelId: '1201633666602897559'
     }
   }
 };
